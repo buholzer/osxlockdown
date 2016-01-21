@@ -15,7 +15,7 @@
         "title": "Disable Bluetooth",
         "check_command": "defaults read /Library/Preferences/com.apple.Bluetooth ControllerPowerState | grep 0",
         "fix_command": "sudo defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerState -int 0 &&  sudo killall -HUP blued",
-        "enabled": true
+        "enabled": false
     },
     {
         "title": "Disable infrared receiver",
@@ -27,7 +27,7 @@
         "title": "Disable AirDrop",
         "check_command": "defaults read com.apple.NetworkBrowser DisableAirDrop | grep 1",
         "fix_command": "defaults write com.apple.NetworkBrowser DisableAirDrop -bool YES",
-        "enabled": true
+        "enabled": false
     },
     {
         "title": "Set time and date automatically",
@@ -46,7 +46,7 @@
         "title": "Enable secure screen saver corners",
         "check_command": "for i in $(find /Users -type d -maxdepth 1); do PREF=$i/Library/Preferences/com.apple.dock.plist; if [ -e $PREF ]; then CORNER=$(defaults read $PREF | grep corner | grep 6) && if [ -n \"$CORNER\" ]; then exit 1; fi; fi; done; exit 0",
         "fix_command": "for i in $(find /Users -type d -maxdepth 1); do PREF=$i/Library/Preferences/com.apple.dock.plist; if [ -e $PREF ]; then CORNER=$(defaults read $PREF | grep corner | grep 6) && if [ -n \"$CORNER\" ]; then defaults write $PREF wvous-tr-corner 5; fi; fi; done;",
-        "enabled": true
+        "enabled": false
     },
     {
         "title": "Require a password to wake the computer from sleep or screen saver",
@@ -126,7 +126,7 @@
         "title": "Enable hibernation mode (no memory power on sleep)",
         "check_command": "pmset -g | grep hibernatemode | grep 25",
         "fix_command": "sudo pmset -a hibernatemode 25",
-        "enabled": true
+        "enabled": false
     },
     {
         "title": "Enable Gatekeeper",
@@ -169,21 +169,21 @@
         "title": "Disable IPv6",
         "check_command": "networksetup -listallnetworkservices | while read i; do SUPPORT=$(networksetup -getinfo \"$i\" | grep \"IPv6: Automatic\") && if [ -n \"$SUPPORT\" ]; then exit 1; fi; done; exit 0",
         "fix_command": "networksetup -listallnetworkservices | while read i; do SUPPORT=$(networksetup -getinfo \"$i\" | grep \"IPv6: Automatic\") && if [ -n \"$SUPPORT\" ]; then networksetup -setv6off \"$i\"; fi; done;",
-        "enabled": true
+        "enabled": false
     },
     {
         "title": "Disable Previews",
         "check_command": "defaults read /Library/Preferences/com.apple.finder.plist | grep ShowIconThumbnails | grep 0",
         "fix_command": "/usr/libexec/PlistBuddy -c \"Add StandardViewOptions:ColumnViewOptions:ShowIconThumbnails bool NO\" \"/Library/Preferences/com.apple.finder.plist\" && /usr/libexec/PlistBuddy -c \"Add StandardViewSettings:ListViewSettings:showIconPreview bool NO\" \"/Library/Preferences/com.apple.finder.plist\" && /usr/libexec/PlistBuddy -c \"Add StandardViewSettings:IconViewSettings:showIconPreview bool NO\" \"/Library/Preferences/com.apple.finder.plist\" && /usr/libexec/PlistBuddy -c \"Add StandardViewSettings:ExtendedListViewSettings:showIconPreview bool NO\" \"/Library/Preferences/com.apple.finder.plist\" && /usr/libexec/PlistBuddy -c \"Add StandardViewOptions:ColumnViewOptions:ShowPreview bool NO\" \"/Library/Preferences/com.apple.finder.plist\" && /usr/libexec/PlistBuddy -c \"Add StandardViewSettings:ListViewSettings:showPreview bool NO\" \"/Library/Preferences/com.apple.finder.plist\" && /usr/libexec/PlistBuddy -c \"Add StandardViewSettings:IconViewSettings:showPreview bool NO\" \"/Library/Preferences/com.apple.finder.plist\" &&  /usr/libexec/PlistBuddy -c \"Add StandardViewSettings:ExtendedListViewSettings:showPreview bool NO\" \"/Library/Preferences/com.apple.finder.plist\"",
         "comment": "TODO: I'm only checking one item, check all",
-        "enabled": true
+        "enabled": false
     },
     {
         "title": "Secure Safari by crippling it",
         "check_command": "defaults read com.apple.Safari WebKitOmitPDFSupport | grep 1",
         "fix_command": "defaults write com.apple.Safari WebKitOmitPDFSupport -bool YES && defaults write com.apple.Safari WebKitJavaScriptEnabled -bool FALSE && defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptEnabled -bool FALSE",
         "comment": "I 'secure' safari by removing javascript and PDF support. Advanced users won't use Safari anyway and novices will be persuaded to use Chrome or Firefox",
-        "enabled": true
+        "enabled": false
     },
     {
         "title": "Disable automatic loading of remote content by Mail.app",
